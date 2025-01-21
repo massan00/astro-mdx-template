@@ -9,7 +9,7 @@ fn main() {
     let directory = &args[1];
     let filename = &args[2];
     let directory_path = format!("src/content/{}", directory);
-    let output_path = format!("src/content/{}/{}", directory, filename);
+    let output_path = format!("src/content/{}/{}.mdx", directory, filename);
 
     //ディレクトリが存在するか確認
     if Path::new(&directory_path).exists() {
@@ -34,22 +34,31 @@ fn main() {
         fs::create_dir_all(format!("src/content/{}", directory))
             .expect("ディレクトリの作成に失敗しました");
     }
+    //現在の日付と時刻を取得
+    let now = chrono::Local::now();
+    let formatted_data = now.format("%Y-%m-%dT%H:%M:%S%.3f%:z").to_string();
     //MDXファイルの生成
     let mut file = fs::File::create(&output_path).expect("ファイルの作成に失敗しました");
-    let mdx_template = r#"---
+    let mdx_template = format!(
+        r#"---
 title: 
 category:
 -
 tags:
 -
 image:
-publishDate:
-modifiedDate:
+publishDate: "{0}"
+modifiedDate: "{0}"
 ---
 
 import Tweet from "../../components/ui/Tweet.astro"
+import Box from '../../components/ui/box.astro'
+import Ahrefs from '../../components/mdx/Ahref.astro'
+export const components = {{a: Ahrefs }}
 
-"#;
+"#,
+        formatted_data
+    );
 
     file.write_all(mdx_template.as_bytes())
         .expect("ファイルへの書き込みに失敗しました");
