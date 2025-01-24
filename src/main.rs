@@ -46,13 +46,14 @@ category:
 -
 tags:
 -
-image:
+image: "../../assets/images/dummy.jpg"
 publishDate: "{0}"
 modifiedDate: "{0}"
 ---
 
 import Tweet from "../../components/ui/Tweet.astro"
 import Box from '../../components/ui/box.astro'
+import Matchtable from '../../components/ui/Matchtable.astro'
 import Ahrefs from '../../components/mdx/Ahref.astro'
 export const components = {{a: Ahrefs }}
 
